@@ -37,7 +37,7 @@
     font-size: 1em;
 }
 
-/* ----- non movil media queries -----*/
+/* ----- non mobile media queries -----*/
 
 @media (width > 415px) {
     header li {
@@ -54,6 +54,15 @@
     };
 }
 
+/* ----- non specific media queries -----*/
+
+@media (width <= 900px) {
+    .header{
+        height: 8vh;
+    }
+}
+
+
 /* ----- movil media queries -----*/
 
 @media (width <= 480px) {
@@ -66,7 +75,12 @@
     }
 
     .header{
-        height: 8vh;
+        height: 6vh;
+    }
+
+    .header-button {
+        width: 40px;
+        height: 40px;
     }
 
     .header input{

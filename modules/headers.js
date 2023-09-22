@@ -64,9 +64,9 @@ export function AddSearchInput(){ //TODO: arreglar tamaño de esa cosa estando e
     label.htmlFor = 'search';
 
     const input = document.createElement('input');
-    input.type = 'text';
+    input.type = 'password';
     input.name = 'search';
-    input.placeholder = 'Busqueda';
+    input.placeholder = 'Contraseña';
 
     label.appendChild(input);
 
