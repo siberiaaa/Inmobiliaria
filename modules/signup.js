@@ -2,6 +2,7 @@ export function LoadSignup(){
     document.title = 'Registro';
 
     const article = document.createElement('article');
+    article.classList.add('article-form');
     article.classList.add('signup-article');
 
     const form = document.createElement('form');
@@ -75,7 +76,7 @@ export function LoadSignup(){
     const input6 = document.createElement('input');
     input6.type = 'date';
     input6.name = 'fecha';
-    input6.setAttribute('id', 'fecha');
+    input6.setAttribute('id', 'fecha-form');
 
     label6.appendChild(input6);
 
@@ -95,7 +96,7 @@ export function LoadSignup(){
     const a = document.createElement('a');
     a.setAttribute('href', '');
     a.setAttribute('draggable', 'false');
-    a.classList.add('signup-button');
+    a.classList.add('button-form');
     a.innerHTML = 'Registrarme';
 
     const p = document.createElement('p');
@@ -104,7 +105,7 @@ export function LoadSignup(){
     const a1 = document.createElement('a');
     a1.setAttribute('href', '');
     a1.setAttribute('draggable', 'false');
-    a1.classList.add('signup-link');
+    a1.classList.add('link-form');
     a1.innerHTML = 'Inicia sesion';
 
     p.appendChild(a1);

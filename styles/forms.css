@@ -1,0 +1,111 @@
+.article-form{
+    margin: 50px 0px;
+
+    
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.article-form form{
+    height: 100%;
+    box-sizing: border-box;
+
+    padding: 30px 0px;
+    background-color: rgb(255, 255, 255);
+    border-radius: 20px;
+    
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.article-form h1{
+    font-weight: 1;
+}
+.article-form form label{
+    width: 70%;
+}
+
+.article-form form label input{
+    width: 100%;
+    padding: 10px;
+
+    background-color: rgb(235, 235, 235);
+    border: 0;
+    border-radius: 10px;
+
+}
+
+.button-form{
+    width: 70%;
+    background: linear-gradient(150deg, rgb(138, 43, 234), rgb(235, 54, 243));
+    border-radius: 10px;
+    padding: 5px;
+
+    font-size: 1.2em;
+    color: rgb(236, 235, 235);
+    text-decoration: none;
+    text-align: center;
+}
+
+.article-form p{
+    font-size: 0.75em;
+}
+
+.link-form:visited{
+    color: black;
+}
+
+
+/* ----- non specific media queries -----*/
+
+@media (width <= 900px) {
+    .article-form h1{
+        font-size: 2em;
+    }
+
+    .article-form form label input{
+        font-size: 1.5em;      
+    }
+
+    .button-form{
+        font-size: 1.5em;    
+    }
+    .article-form p{
+        font-size: 1em;
+    }
+
+}
+
+/* ----- mobile media queries -----*/
+
+@media (width <= 480px) {
+    .article-form form{
+        background-color: rgba(255, 255, 255, 0);
+    }
+
+    .article-form form label input{
+        background-color: rgb(255, 255, 255);
+        font-size: 1.5em;
+    }
+
+    .article-form h1, .article-form p, .link-form, .link-form:visited{
+        color: rgb(255, 255, 255);
+    }
+
+    .button-form{
+        background: rgb(255, 255, 255);
+        color: black;
+        width: 50%;
+        border-radius: 20px;
+    }
+
+    .article-form h1{
+        font-size: 2em;
+    }
+
+}

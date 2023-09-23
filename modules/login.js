@@ -1,8 +1,10 @@
 export function LoadLogin(){
     document.title = 'Iniciar sesion';
 
-    const article = document.createElement('article');
+    const article = document.createElement('article')
+    article.classList.add('article-form');
     article.classList.add('login-article');
+    
 
     const form = document.createElement('form');
 
@@ -32,7 +34,7 @@ export function LoadLogin(){
     const a = document.createElement('a');
     a.setAttribute('href', '');
     a.setAttribute('draggable', 'false');
-    a.classList.add('login-button');
+    a.classList.add('button-form');
     a.innerHTML = 'Iniciar Sesion';
 
     const p = document.createElement('p');
@@ -41,7 +43,7 @@ export function LoadLogin(){
     const a1 = document.createElement('a');
     a1.setAttribute('href', '');
     a1.setAttribute('draggable', 'false');
-    a1.classList.add('login-link');
+    a1.classList.add('link-form');
     a1.innerHTML = 'Crea una';
 
     p.appendChild(a1);
