@@ -55,5 +55,5 @@ export function LoadLogin(){
     article.appendChild(form);
 
     const body = document.querySelector('body');
-    body.appendChild(article)
+    body.appendChild(article);
 }

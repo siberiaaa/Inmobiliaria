@@ -22,16 +22,15 @@ img{
 
 body {
     min-height: 100vh;
-    
-    box-sizing: border-box;
     font-family: 'BebasNeue';
     font-size: calc(14px + (28 - 14) * (100vw - 300px) / (1920 - 300));
 
     background-size: cover;
-}
 
-body{
-    padding: 20px 30px;
+    /*TODO: para que el footer se quede abajo?*/
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 

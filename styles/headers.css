@@ -1,10 +1,14 @@
 .header {
-    height: 10vh;
+    height: 13vh;
     width: 100%;
+    box-sizing: border-box;
+    padding: 20px;
 
     display: flex;
     justify-content: space-between;
     align-items: center;
+
+    
 }
 
 .header ul {
@@ -58,7 +62,7 @@
 
 @media (width <= 900px) {
     .header{
-        height: 8vh;
+        height: 11vh;
     }
 }
 
@@ -75,7 +79,7 @@
     }
 
     .header{
-        height: 6vh;
+        height: 9vh;
     }
 
     .header-button {
