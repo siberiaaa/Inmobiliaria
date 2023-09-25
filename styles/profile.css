@@ -1,0 +1,85 @@
+.article-profile {
+    margin: 3vw;
+    padding: 30px;
+
+    width: 60vw;
+
+    border-radius: 10px;
+    background-color: rgba(240, 240, 240, 0.726);
+}
+
+.article-profile section{
+    display: flex;
+    justify-content: space-around; 
+    
+    margin: 3vw;
+}
+
+
+.article-profile section form{
+    background-color: rgb(243, 243, 243);
+
+    row-gap: 2vh;
+    
+}
+
+.article-profile section form label input{
+    background-color: rgb(255, 255, 255);
+    color: rgb(3, 3, 3);
+}
+
+.article-profile div {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+section.article-form.profileoptions-section{
+    height: 25vh;
+
+    display: flex;
+    flex-direction: column;
+    align-content: space-between;
+    
+}
+
+.profileoptions-section a{
+    width: 100%;
+}
+
+
+
+/* ----- non specific media queries -----*/
+
+@media (width <= 980px) {
+    .article-profile .article-form form label input{
+        font-size: 1em;      
+    }
+
+    .article-profile .button-form{
+        font-size: 1em;    
+    }
+
+}
+
+/* ----- mobile media queries -----*/
+
+@media (width <= 480px) {
+    .article-profile div {
+        display: flex;
+        flex-direction: column;
+
+        align-content: center;
+        justify-content: space-around;
+        align-items: center;
+
+
+    }
+
+    .article-profile .button-form{
+        font-size: 1.4em;    
+    }
+
+
+
+}

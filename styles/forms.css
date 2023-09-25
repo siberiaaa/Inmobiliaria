@@ -33,6 +33,7 @@
 .article-form form label input{
     width: 100%;
     padding: 10px;
+    box-sizing: border-box;
 
     background-color: rgb(235, 235, 235);
     border: 0;
