@@ -34,7 +34,7 @@ function LoadHeader(li3, li4){
     header.appendChild(a);
 
     const body = document.querySelector('body');
-    body.appendChild(header);
+    body.prepend(header);
 }
 
 export function LoadHeaderNoLogged(){

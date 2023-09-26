@@ -124,6 +124,6 @@ export function LoadProfile(){
     article.appendChild(h1);
     article.appendChild(div);
 
-    const body = document.querySelector('body');
-    body.appendChild(article);
+    const main = document.querySelector('main');
+    main.appendChild(article);
 }

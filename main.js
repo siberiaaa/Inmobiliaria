@@ -4,13 +4,14 @@ import * as login from './modules/login.js';
 import * as signup from './modules/signup.js';
 import * as profile from './modules/profile.js'
 
+
 headers.LoadHeaderLogged();
+login.LoadLogin();
 /*
 login.LoadLogin();
-signup.LoadSignup();
+;
+signup.LoadSignup()
+
 */
-profile.LoadProfile();
 
 footers.LoadFooter();
-
-

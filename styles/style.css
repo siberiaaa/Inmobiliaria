@@ -27,11 +27,10 @@ body {
 
     background-size: cover;
 
-    /*TODO: para que el footer se quede abajo?*/
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
+}
+
+main {
+    height: calc(100vh - 13vh);
 }
 
 

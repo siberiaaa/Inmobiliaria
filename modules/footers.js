@@ -130,5 +130,5 @@ export function LoadFooter(){
     footer.appendChild(section2);
 
     const body = document.querySelector('body');
-    body.appendChild(footer);
+    body.append(footer);
 }
