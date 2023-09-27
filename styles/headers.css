@@ -58,6 +58,11 @@
     };
 }
 
+.header-shortbackground{
+    border-bottom: 1px solid rgb(173, 173, 173);
+    background-image: url(./../assets/shortbackground-header.png);
+}
+
 /* ----- non specific media queries -----*/
 
 @media (width <= 900px) {
