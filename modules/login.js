@@ -1,3 +1,5 @@
+/*import OpenRegistrarse from './headers.js';*/
+
 export function LoadLogin(){
     document.title = 'Iniciar sesion';
 
@@ -7,6 +9,8 @@ export function LoadLogin(){
     
 
     const form = document.createElement('form');
+    form.addEventListener('submit', (e) => e.preventDefault());
+
 
     const h1 = document.createElement('h1');
     h1.innerHTML = 'Iniciar sesion';
@@ -36,6 +40,7 @@ export function LoadLogin(){
     a.setAttribute('draggable', 'false');
     a.classList.add('button-form');
     a.innerHTML = 'Iniciar Sesion';
+    a.addEventListener('click', (e) => LogIn(e));
 
     const p = document.createElement('p');
     p.innerHTML = '¿No tienes cuenta? ';
@@ -45,6 +50,11 @@ export function LoadLogin(){
     a1.setAttribute('draggable', 'false');
     a1.classList.add('link-form');
     a1.innerHTML = 'Crea una';
+
+    /*a1.addEventListener('click', (e) => {
+        e.preventDefault();
+        OpenRegistrarse();
+    });  //TODO:*/
 
     p.appendChild(a1);
 
@@ -60,3 +70,64 @@ export function LoadLogin(){
     main.appendChild(article);
 }
 
+
+async function LogInAPI(email, pass) {
+    const response = await fetch('https://graco-api.onrender.com/login', {
+        method: 'POST',
+        headers:{
+            'Content-Type': 'application/json'
+        },
+        body: {'email': email, 'password': pass}
+    });
+
+    console.log(response)
+    if (!response.ok) {
+        console.error(`Error: ${response.status}`); //TODO: modal aqui
+        return;
+    }
+
+    const data = await response.json();
+
+    if (data['success']) {
+        return data['data']['token'];
+    } else {
+        return null;
+    }
+}
+
+async function LogIn(e){
+    e.preventDefault();
+    const form = document.querySelector('form');
+    const data = new FormData(form);
+
+    const email = data.get('email');
+    const pass = data.get('password');
+
+    if (!email || !pass) {
+        //TODO: modal aqui de error
+        return;
+    }
+
+    if (!ValidateEmail(email)){
+        //TODO: modal aqui de error por email invalido
+    }
+    
+    const token = await LogInAPI(email, pass);
+    
+    if(token != null){
+        form.reset();
+        localStorage.setItem('jwt', token);
+        //TODO: modal aqui de redirigir?
+    }
+    else{
+        //TODO: modal aqui de error
+    }
+}
+
+function ValidateEmail(email){
+    return String(email)
+    .toLowerCase()
+    .match(
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    );
+}

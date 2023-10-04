@@ -3,6 +3,7 @@
     src: url(./../assets/BebasNeue-Regular.ttf);
 }
 
+
 body, h1, h2, h3, h4, p, li, form, label, footer, header, ol, ul, div{
     margin: 0;
     padding: 0;
@@ -24,19 +25,24 @@ body {
     min-height: 100vh;
     font-family: 'BebasNeue';
     font-size: calc(14px + (28 - 14) * (100vw - 300px) / (1920 - 300));
-
+    
     background-size: cover;
+}
 
+.body-principal{
+    border-bottom: 1px solid rgb(173, 173, 173);
+    background-image: url(./../assets/shortbackground-header.png);
 }
 
 main {
     min-height: calc(100vh - 13vh);
     display: flex;
 
+    justify-content: center; /*Pendiente que no dañe el resto*/
 }
 
 
-/* ----- movil media queries -----*/
+/* ----- mobile media queries -----*/
 
 @media (width <= 480px) {
     body{
@@ -44,7 +50,7 @@ main {
     }
 }
 
-/* ----- non movil media queries -----*/
+/* ----- non mobile media queries -----*/
 
 @media (width > 480px) {
     body{

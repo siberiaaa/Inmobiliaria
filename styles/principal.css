@@ -1,0 +1,43 @@
+.princial-article{
+    display: flex;
+    flex: 1;
+}
+
+.banner{
+    width: 100%;
+    height: 100vh;
+
+    background-size: cover;
+    background-image: url(./../assets/backgroundprincipal.png);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.banner h1{
+    margin-left: 5vw;
+    font-size: 5em;
+    color: white;
+}
+
+.banner p{
+    margin-left: 5vw;
+    font-size: 2em;
+    color: white;
+}
+
+/* ----- mobile media queries -----*/
+
+@media (width <= 480px) {
+    .banner h1{
+        margin-left: 3vw;
+        font-size: 3em;
+    }
+    
+    .banner p{
+        margin-left: 3vw;
+        font-size: 2em;
+
+    }
+}
