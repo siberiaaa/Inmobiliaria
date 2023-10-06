@@ -255,6 +255,76 @@ function ModifyProfile(){
     button.remove();     
 }
 
+function ModifyPassword(){
+    
+}
+
+async function SavePassword(){
+    const jwt = localStorage.getItem('jwt');
+    if(jwt == null){
+        OpenModalErrorReload('Vuelve a iniciar sesión antes de continuar.');
+        return;
+    }
+
+    const form = document.querySelector('form');
+        const data = new FormData(form);
+
+        const oldpass = data.get('oldpass');
+        const newpass = data.get('newpass');
+    
+        if (!oldpass || !newpass) {
+            OpenModalError('Llenar campos requeridos.');
+            return;
+        }
+        
+        const modified = await SavePassword(jwt, oldpass, newpass);
+
+        if(modified){
+            OpenModalButton('Cambios guardados correctamente', () => {
+                const main = document.querySelector('main');
+                main.innerHTML = '';
+                LoadProfile();
+            });
+        }
+        else{
+            return false;
+        }
+
+}
+async function SavePassword(jwt, oldpass, newpass){
+    const response = await fetch('https://graco-api.onrender.com/perfil', {
+        method: 'PUT',
+        headers:  {
+            "Content-Type": "application/json",
+            'Authorization': jwt
+          },
+        body: JSON.stringify({"nombre": nombres,
+        "apellido": apellidos,
+        "dni": dni,
+        "nacimiento": fecha,
+        "direccion": direccion})
+    });
+
+    if (response.status >= 500 && response.status <= 599) {
+        OpenModalErrorReload(`Error con el servidor\n${response.status}`)
+        return;
+    }
+
+    const data = await response.json();
+
+    if (data['success']) {
+        return true;
+    } else if(data['message' == 'Invalid session token']){
+        OpenModalErrorReload(`Sesión expirada. Volver a iniciar sesion.`);
+        localStorage.removeItem('jwt');
+        return false;
+    } else{
+        OpenModalError(data['message']);
+        return false;
+    }
+}
+
+
 async function SaveModify(){
     const jwt = localStorage.getItem('jwt');
     if(jwt == null){
