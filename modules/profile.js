@@ -256,7 +256,70 @@ function ModifyProfile(){
 }
 
 function ModifyPassword(){
+    const label1 = document.createElement('label');
+    label1.htmlFor = 'oldpass';
+    const span1 = document.createElement('span');
+    span1.innerHTML = 'Contraseña nueva';
+    const input1 = document.createElement('input');
+    input1.type = 'password';
+    input1.name = 'oldpass';
+
+    label1.appendChild(span1);
+    label1.appendChild(input1);
+
+    const label2 = document.createElement('label');
+    label2.htmlFor = 'newpass';
+    const span2 = document.createElement('span');
+    span2.innerHTML = 'Contraseña nueva';
+    const input2 = document.createElement('input');
+    input2.type = 'password';
+    input2.name = 'newpass';
+
+    label2.appendChild(span2);
+    label2.appendChild(input2);
+
+    const form = document.querySelector('.article-profile section form');
+    form.classList.add('formedit');
+    form.innerHTML = '';
+
+    form.appendChild(label1);
+    form.appendChild(label2);
+
+    const buttonCancel = document.createElement('a');
+    buttonCancel.setAttribute('href', '');
+    buttonCancel.setAttribute('draggable', 'false');
+    buttonCancel.classList.add('button-form');
+    buttonCancel.innerHTML = 'Cancelar';
+    buttonCancel.addEventListener('click', (e) => {
+        e.preventDefault();
+        const main = document.querySelector('main');
+        main.innerHTML = '';
+        LoadProfile();
+    });
+
+    const buttonSave = document.createElement('a');
+    buttonSave.setAttribute('href', '');
+    buttonSave.setAttribute('draggable', 'false');
+    buttonSave.classList.add('button-form');
+    buttonSave.innerHTML = 'Guardar cambios';
+    buttonSave.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (!SavePassword()){
+            return;
+        }
+    });
     
+    const button = document.querySelector('a.button-form:nth-child(1)');
+    const button1 = document.querySelector('a.button-form:nth-child(2)');
+    const button2 = document.querySelector('a.button-form:nth-child(3)');
+
+    button1.remove();
+    button2.remove();
+
+    button.before(buttonSave);
+    button.before(buttonCancel);
+
+    button.remove();    
 }
 
 async function SavePassword(){
@@ -291,7 +354,7 @@ async function SavePassword(){
         }
 
 }
-async function SavePassword(jwt, oldpass, newpass){
+async function SavePasswordAPI(jwt, oldpass, newpass){
     const response = await fetch('https://graco-api.onrender.com/perfil', {
         method: 'PUT',
         headers:  {
