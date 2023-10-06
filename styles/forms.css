@@ -52,6 +52,14 @@
     text-align: center;
 }
 
+.button-form:hover{
+    filter: brightness(90%);
+}
+
+.button-form:active{
+    filter: brightness(110%);
+}
+
 .article-form p{
     font-size: 0.75em;
 }

@@ -1,4 +1,5 @@
 import {OpenModalButton, OpenModalError, OpenModalErrorReload} from './modal.js';
+import {LoadHistory} from './history.js';
 
 export function LoadProfile(){
     document.title = 'Perfil';
@@ -56,6 +57,16 @@ export function LoadProfile(){
     label3.appendChild(span3);
     label3.appendChild(input3);
 
+    const dateLabel = document.createElement('label');
+    dateLabel.htmlFor = 'fecha';
+    const spanDate = document.createElement('span');
+    spanDate.innerHTML = 'Fecha de nacimiento';
+    const date = document.createElement('input');
+    date.type = 'date';
+    date.name = 'fecha';
+    
+    dateLabel.appendChild(spanDate);
+    dateLabel.appendChild(date);
 
     const label4 = document.createElement('label');
     label4.htmlFor = 'cedula';
@@ -88,6 +99,7 @@ export function LoadProfile(){
     form.appendChild(label1);
     form.appendChild(label2);
     form.appendChild(label3);
+    form.appendChild(dateLabel);
     form.appendChild(label4);
     form.appendChild(label5);
 
@@ -115,6 +127,14 @@ export function LoadProfile(){
     a3.setAttribute('draggable', 'false');
     a3.classList.add('button-form');
     a3.innerHTML = 'Ver historial';
+    a3.addEventListener('click', (e) => {
+        e.preventDefault();
+        const main = document.querySelector('main');
+        main.innerHTML = '';
+        LoadHistory();
+
+    }
+    )
 
     section2.appendChild(a1);
     section2.appendChild(a2);
@@ -170,6 +190,12 @@ async function LoadProfileAPI() {
         document.querySelector('form input[name="email"]').value = profileData['mail'];
         document.querySelector('form input[name="nombres"]').value = profileData['nombre'];
         document.querySelector('form input[name="apellidos"]').value = profileData['apellido'];
+
+        const fecha = new Date(profileData['nacimiento']);
+        const datePicker = document.querySelector('form input[name="fecha"]');
+        datePicker.setAttribute('enabled', 'true');
+        datePicker.setAttribute('value', fecha);
+        
         document.querySelector('form input[name="cedula"]').value = profileData['dni'];
         document.querySelector('form input[name="direccion"]').value = profileData['direccion'];
     }

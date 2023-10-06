@@ -169,11 +169,50 @@ export function LoadPropertyLi(property){
 
     li.addEventListener('click', (e) => {
         e.preventDefault();
-        LoadProperty(property);
+        const jwt = localStorage.getItem('jwt');
+        if(jwt == null){
+            LoadProperty(property);
+        }
+        else{
+            LoadProperty(property);
+            /* Mientras se arregla lo de body get
+            const propertyUser = LoadSinglePropertyAPI(property['id'], jwt);
+            if (propertyUser != null){
+                LoadProperty(propertyUser);
+            }else{
+                return;
+            }*/
+        }
+
     })
     li.append(div);
     li.append(h3);
 
     const ul = document.querySelector('article.article-properties section ul');
     ul.append(li);
+}
+
+async function LoadSinglePropertyAPI(id, jwt){
+    const response = await fetch('https://graco-api.onrender.com/propiedadusuario/id', {
+        method: 'GET',
+        headers:  {
+            "Content-Type": "application/json",
+            "Authorization": jwt
+          },
+        body: JSON.stringify({"propiedad": id})
+    });
+
+    if (response.status >= 500 && response.status <= 599) {
+        OpenModalErrorReload(`Error con el servidor\n${response.status}`)
+        return;
+    }
+
+    const data = await response.json();
+
+    if (data['success']) {
+        return {...data['data']};
+    } else {
+        OpenModalErrorReload(data['message']);
+        return null;
+    }
 }

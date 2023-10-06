@@ -1,3 +1,5 @@
+import {OpenModalError, OpenModalErrorReload} from './modal.js';
+
 export function LoadHistory(){
     document.title = 'Propiedades';
 
@@ -14,38 +16,108 @@ export function LoadHistory(){
 
     const main = document.querySelector('main');
     main.appendChild(article);
+
+    LoadHistoryAPI();
 }
 
 
-export function LoadPropertyHistory(/*propiedad se supone*/){
+export function LoadPropertyHistory(property){
     const li = document.createElement('li');
 
     const div = document.createElement('div');
     const img = document.createElement('img');
 
     img.setAttribute('draggable', 'false');
-    img.src = 'assets/test/src.jpg';
+    img.src = property['imagenes'][0];
 
     const h2 = document.createElement('h2');
-    h2.innerHTML = 'Titulo';
+    h2.innerHTML = `${property['id']} Titulo`;
 
     const p1 = document.createElement('p');
-    p1.innerHTML = '1 habitación'; 
+    if (property['habitaciones'] == 1){
+        p1.innerHTML = '1 habitación'; 
+    } else{
+        p1.innerHTML = `${property['habitaciones']} habitaciones`;
+    }
 
     const p2 = document.createElement('p');
-    p2.innerHTML = '4 baños'; 
+    if (property['baños'] == 1){
+        p2.innerHTML = '1 baño'; 
+    } else{
+        p2.innerHTML = `${property['baños']} baños`;
+    }
 
     div.appendChild(img);
     div.appendChild(h2);
     div.appendChild(p1);
     div.appendChild(p2);
 
+
     const h3 = document.createElement('h3');
-    h3.innerHTML = '5000$';
+    if(property['estado'] = 1){
+        h3.innerHTML = 'Visita pendiente';
+    }
+    else if(property['estado'] = 2){
+        h3.innerHTML = 'Visita realizada';
+    }
+    else if(property['estado'] = 3){
+        h3.innerHTML = 'Comprado';
+    }
+ 
 
     li.append(div);
     li.append(h3);
 
     const ul = document.querySelector('article.article-properties section ul');
     ul.append(li);
+}
+
+async function HistoryAPI(jwt) {
+    const response = await fetch('https://graco-api.onrender.com/historial', {
+        method: 'GET',
+        headers:  {
+            "Content-Type": "application/json",
+            "Authorization": jwt
+          }
+    });
+
+
+    if (response.status >= 500 && response.status <= 599) {
+        OpenModalErrorReload(`Error con el servidor\n${response.status}`)
+        return;
+    }
+
+
+    const data = await response.json();
+    	
+    if (data['success']) {
+        console.log(data['data'])
+        return [...data['data']];
+    } else {
+        OpenModalError(data['message']);
+        return null;
+    }
+}
+
+async function LoadHistoryAPI(){
+    const jwt = localStorage.getItem('jwt');
+    if(jwt == null){
+        OpenModalErrorReload('Vuelve a iniciar sesión antes de continuar.');
+        return;
+    }
+    const data = await HistoryAPI(jwt);
+
+    if(data != null){
+        if(data.length == 0){
+            const ul = document.querySelector('article.article-properties section ul');
+            const li = document.createElement('li');
+            li.innerHTML = 'Nada registrado en el historial'.
+            ul.append(li);
+        }
+        else{
+            for (let property of data){
+                LoadPropertyHistory(property);
+            }
+        } 
+    }
 }
