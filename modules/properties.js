@@ -34,23 +34,17 @@ export function LoadProperties(){
     const a3 = document.createElement('a');
     a3.setAttribute('href', '');
     a3.setAttribute('draggable', 'false');
-    a3.innerHTML = '3 habitaciones';
-
-    const a4 = document.createElement('a');
-    a4.setAttribute('href', '');
-    a4.setAttribute('draggable', 'false');
-    a4.innerHTML = '4 o más habitaciones';
+    a3.innerHTML = '3 o más habitaciones';
 
     li.appendChild(h2);
     li.appendChild(a1);
     li.appendChild(a2);
     li.appendChild(a3);
-    li.appendChild(a4);
 
     const li2 = document.createElement('li');
 
     const h22 = document.createElement('h2');
-    h2.innerHTML = 'Baños';
+    h22.innerHTML = 'Baños';
 
     const a21 = document.createElement('a');
     a21.setAttribute('href', '');
@@ -65,21 +59,67 @@ export function LoadProperties(){
     const a23 = document.createElement('a');
     a23.setAttribute('href', '');
     a23.setAttribute('draggable', 'false');
-    a23.innerHTML = '3 baños';
-
-    const a24 = document.createElement('a');
-    a24.setAttribute('href', '');
-    a24.setAttribute('draggable', 'false');
-    a24.innerHTML = '4 o más baños';
+    a23.innerHTML = '3 baños o más baños';
 
     li2.appendChild(h22);
     li2.appendChild(a21);
     li2.appendChild(a22);
     li2.appendChild(a23);
-    li2.appendChild(a24);
+
+    const li3 = document.createElement('li');
+
+    const h23 = document.createElement('h2');
+    h23.innerHTML = 'Antigüedad';
+
+    const a31 = document.createElement('a');
+    a31.setAttribute('href', '');
+    a31.setAttribute('draggable', 'false');
+    a31.innerHTML = '0 a 4 años';
+
+    const a32 = document.createElement('a');
+    a32.setAttribute('href', '');
+    a32.setAttribute('draggable', 'false');
+    a32.innerHTML = '5 a 9 años';
+
+    const a33 = document.createElement('a');
+    a33.setAttribute('href', '');
+    a33.setAttribute('draggable', 'false');
+    a33.innerHTML = '10 a más años';
+
+    li3.appendChild(h23);
+    li3.appendChild(a31);
+    li3.appendChild(a32);
+    li3.appendChild(a33);
+
+    const li4 = document.createElement('li');
+
+    const h24 = document.createElement('h2');
+    h24.innerHTML = 'Metros Cuadrados';
+
+    const a41 = document.createElement('a');
+    a41.setAttribute('href', '');
+    a41.setAttribute('draggable', 'false');
+    a41.innerHTML = '0 a 50 mts²';
+
+    const a42 = document.createElement('a');
+    a42.setAttribute('href', '');
+    a42.setAttribute('draggable', 'false');
+    a42.innerHTML = '51 a 100 mts²';
+
+    const a43 = document.createElement('a');
+    a43.setAttribute('href', '');
+    a43.setAttribute('draggable', 'false');
+    a43.innerHTML = '100 a más mts²';
+
+    li4.appendChild(h24);
+    li4.appendChild(a41);
+    li4.appendChild(a42);
+    li4.appendChild(a43);
 
     ul.appendChild(li);
     ul.appendChild(li2);
+    ul.appendChild(li3);
+    ul.appendChild(li4);
 
     aside.appendChild(h1);
     aside.appendChild(ul);
