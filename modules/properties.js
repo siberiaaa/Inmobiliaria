@@ -208,6 +208,10 @@ async function LoadSinglePropertyAPI(id, jwt){
 
     if (data['success']) {
         return {...data['data']};
+    } else if(data['message' == 'Invalid session token']){
+        OpenModalErrorReload(`Sesión expirada. Volver a iniciar sesion.`);
+        localStorage.removeItem('jwt');
+        return null;
     } else {
         OpenModalErrorReload(data['message']);
         return null;

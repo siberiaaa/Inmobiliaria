@@ -87,12 +87,13 @@ async function HistoryAPI(jwt) {
         return;
     }
 
-
-    const data = await response.json();
-    	
     if (data['success']) {
         console.log(data['data'])
         return [...data['data']];
+    } else if(data['message' == 'Invalid session token']){
+        OpenModalErrorReload(`Sesión expirada. Volver a iniciar sesion.`);
+        localStorage.removeItem('jwt');
+        return null;
     } else {
         OpenModalError(data['message']);
         return null;
