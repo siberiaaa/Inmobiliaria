@@ -5,6 +5,10 @@ import * as main from './../main.js'
 export function LoadSignup(){
     document.title = 'Registro';
 
+    const header = document.querySelector('header.header');
+    header.className = '';
+    header.classList.add('header');
+
     const article = document.createElement('article');
     article.classList.add('article-form');
     article.classList.add('signup-article');

@@ -3,6 +3,11 @@ import {LoadProperty} from './property.js';
 export function LoadPrincipal(){ 
     document.title = 'Inmobiliaria';
 
+    const header = document.querySelector('header.header');
+    header.className = '';
+    header.classList.add('header');
+    header.classList.add('header-shortbackground');
+
     const article = document.createElement('article');
     article.classList.add('princial-article');
 
@@ -13,7 +18,7 @@ export function LoadPrincipal(){
     h1.innerHTML = '¡Bienvenidos!';
 
     const p = document.createElement('p');
-    p.innerHTML = 'Descubre tu nuevo hogar hoy.<br>Bienvenido a la experiencia inmobiliaria definitiva.'; //TODO:
+    p.innerHTML = 'Descubre tu nuevo hogar hoy.<br>Bienvenido a la experiencia inmobiliaria definitiva.'; 
 
     section1.appendChild(h1);
     section1.appendChild(p);

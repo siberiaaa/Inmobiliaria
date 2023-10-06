@@ -5,6 +5,10 @@ import * as main from './../main.js'
 export function LoadLogin(){
     document.title = 'Iniciar sesion';
 
+    const header = document.querySelector('header.header');
+    header.className = '';
+    header.classList.add('header');
+
     const article = document.createElement('article')
     article.classList.add('article-form');
     article.classList.add('login-article');

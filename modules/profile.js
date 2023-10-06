@@ -5,6 +5,10 @@ import {OpenCerrarSesion} from './headers.js';
 export function LoadProfile(){
     document.title = 'Perfil';
 
+    const header = document.querySelector('header.header');
+    header.className = '';
+    header.classList.add('header');
+
     const article = document.createElement('article');
     article.classList.add('article-profile');
 

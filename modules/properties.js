@@ -6,6 +6,11 @@ let propertiesArray = [];
 export function LoadProperties(){
     document.title = 'Propiedades';
 
+    const header = document.querySelector('header');
+    header.className = '';
+    header.classList.add('header');
+    header.classList.add('header-shortbackground');
+
     const article = document.createElement('article')
     article.classList.add('article-properties');
 
