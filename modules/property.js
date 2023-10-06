@@ -1,5 +1,5 @@
-export function LoadProperty(/*Propiedad*/){
-    document.title = 'Propiedad';
+export function LoadProperty(property){
+    document.title = `${property['id']} Titulo`;
 
     const article = document.createElement('article');
     article.classList.add('article-property');
@@ -7,27 +7,26 @@ export function LoadProperty(/*Propiedad*/){
     const section1 = document.createElement('section');
     section1.classList.add('property-imgs');
 
+    const img = document.createElement('img');
+    img.src = property['imagenes'][0];
+
     const ul1 = document.createElement('ul');
 
-    const li1 = document.createElement('li');
-    const img1 = document.createElement('img');
-    img1.src = 'assets/test/src.jpg';
+    for (let lilimg of property['imagenes']){
+        const li1 = document.createElement('li');
 
-    li1.appendChild(img1);
+        li1.addEventListener('click', (e) => {
+            e.preventDefault();
+            img.src = lilimg;
+        })
+        const img1 = document.createElement('img');
+        img1.src = lilimg;
 
-    const li2 = document.createElement('li');
-    const img2 = document.createElement('img');
-    img2.src = 'assets/test/src.jpg';
-    li2.appendChild(img2);
+        li1.appendChild(img1);
+        ul1.append(li1);
+    }
 
-
-    ul1.append(li1);
-    ul1.append(li2);
-
-
-    const img = document.createElement('img');
-    img.src = 'assets/test/src.jpg';
-
+    
     section1.appendChild(ul1);
     section1.appendChild(img);
 
@@ -36,7 +35,7 @@ export function LoadProperty(/*Propiedad*/){
     section2.classList.add('property-details');
 
     const h1 = document.createElement('h1');
-    h1.innerHTML = 'Titlulo';
+    h1.innerHTML = `${property['id']} Titulo`;
 
     const div = document.createElement('div');
 
@@ -47,22 +46,25 @@ export function LoadProperty(/*Propiedad*/){
 
     const li21 = document.createElement('li'); 
     const h41 = document.createElement('h4');
-    h41.innerHTML = 'mts²: 2';
+    h41.innerHTML = `mts²: ${property['metroscuadrados']}`;
     li21.appendChild(h41);
 
     const li22 = document.createElement('li'); 
     const h42 = document.createElement('h4');
-    h42.innerHTML = 'Habitaciones: 2';
+    h42.innerHTML = `Habitaciones: ${property['habitaciones']}`;
     li22.appendChild(h42);
 
     const li23 = document.createElement('li'); 
     const h43 = document.createElement('h4');
-    h43.innerHTML = 'Antiguedad: 2';
+
+    const yearToday = new Date(Date.now());
+    const yearProperty = new Date(property['antiguedad']);
+    h43.innerHTML = `Antiguedad: ${yearToday.getFullYear() - (yearProperty.getFullYear() + 1)} años`;
     li23.appendChild(h43);
 
     const li24 = document.createElement('li'); 
     const h44 = document.createElement('h4');
-    h44.innerHTML = 'Baños: 2';
+    h44.innerHTML = `Baños: ${property['baños']}`;
     li24.appendChild(h44);
 
     ul2.appendChild(li21);
@@ -100,5 +102,6 @@ export function LoadProperty(/*Propiedad*/){
     article.appendChild(section2);
 
     const main = document.querySelector('main');
+    main.innerHTML = '';
     main.appendChild(article);
 }

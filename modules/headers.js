@@ -4,7 +4,16 @@ import * as profile from './profile.js';
 import * as properties from './properties.js';
 import * as principal from './principal.js';
 import * as modal from './modal.js';
+import * as main from './../main.js'
 
+export function LoadAnyHeader(){
+    if(localStorage.getItem('jwt') == null){
+        LoadHeaderNoLogged();
+    }
+    else{
+        LoadHeaderLogged();
+    }
+}
 
 function LoadHeader(li3, li4){
     const header = document.createElement('header');
@@ -58,7 +67,7 @@ function LoadHeader(li3, li4){
     body.prepend(header);
 }
 
-export function LoadHeaderNoLogged(){
+function LoadHeaderNoLogged(){
     const li3 = document.createElement('li');
     li3.innerHTML = 'Iniciar sesion';
 
@@ -78,7 +87,7 @@ export function LoadHeaderNoLogged(){
     LoadHeader(li3, li4);
 }
 
-export function LoadHeaderLogged(){
+function LoadHeaderLogged(){
     const li3 = document.createElement('li');
     li3.innerHTML = 'Ver perfil';
 
@@ -150,9 +159,6 @@ export function OpenVerPerfil(){
 }
 
 export function OpenCerrarSesion(){
-    const main = document.querySelector('main');
-    main.innerHTML = '';
-
     localStorage.removeItem('jwt');
-    principal.LoadPrincipal();
+    main.Load();
 }

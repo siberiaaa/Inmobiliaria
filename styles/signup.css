@@ -3,7 +3,7 @@
 }
 
 .signup-article form {
-    width: 600px;
+    width: 50vw;
 }
 
 .signup-article div {
@@ -21,3 +21,21 @@
 #fecha-form {
     color: rgb(126, 109, 109);
 }
+
+
+/* ----- non specific media queries -----*/
+
+@media (width <= 1200px) {
+    .signup-article form {
+        width: 70vw;
+    }
+}
+
+/* ----- mobile media queries -----*/
+
+@media (width <= 480px) {
+    .signup-article form {
+        width: 93vw;
+    }
+}
+

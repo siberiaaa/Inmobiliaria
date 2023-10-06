@@ -23,6 +23,10 @@
     
 }
 
+.article-profile section form label{
+    width: 80%;
+ }
+
 .article-profile section form label input{
     background-color: rgb(255, 255, 255);
     color: rgb(3, 3, 3);
@@ -78,6 +82,14 @@ section.article-form.profileoptions-section{
 
     .article-profile .button-form{
         font-size: 1.4em;    
+    }
+
+    .article-profile section form{
+        background-color: rgba(243, 243, 243, 0);
+    }
+
+    .article-profile section form label{
+       width: 100%;
     }
 
 

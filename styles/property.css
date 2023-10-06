@@ -30,6 +30,10 @@ section.property-imgs ul li img{
     height: 4vw;
 }
 
+section.property-imgs ul li img:hover{
+    transform: scale(1.1); 
+}
+
 section.property-details{
     margin: 60px 0;
     padding: 40px;
@@ -99,6 +103,14 @@ section.property-options{
     color: rgb(236, 235, 235);
     text-decoration: none;
     text-align: center;
+}
+
+.button-property:hover{
+    background: rgb(132, 89, 211);
+}
+
+.button-property:active{
+    background: rgb(87, 55, 146);
 }
 
 

@@ -1,3 +1,7 @@
+import {OpenIniciarSesion} from './headers.js';
+import {OpenModalButton, OpenModalError, OpenModalErrorReload} from './modal.js';
+import * as main from './../main.js'
+
 export function LoadSignup(){
     document.title = 'Registro';
 
@@ -98,16 +102,22 @@ export function LoadSignup(){
     a.setAttribute('draggable', 'false');
     a.classList.add('button-form');
     a.innerHTML = 'Registrarme';
+    a.addEventListener('click', (e) => SignUp(e));
 
     const p = document.createElement('p');
     p.innerHTML = '¿Ya tienes cuenta? ';
+
+     
 
     const a1 = document.createElement('a');
     a1.setAttribute('href', '');
     a1.setAttribute('draggable', 'false');
     a1.classList.add('link-form');
     a1.innerHTML = 'Inicia sesion';
-
+    a1.addEventListener('click', (e) => {
+        e.preventDefault();
+        OpenIniciarSesion();
+    }); 
     p.appendChild(a1);
 
     form.appendChild(h1);
@@ -123,4 +133,76 @@ export function LoadSignup(){
 
     const main = document.querySelector('main');
     main.appendChild(article);
+}
+
+
+async function Register(nombres, apellidos, email, direccion, cedula, fecha, password) {
+    const response = await fetch('https://graco-api.onrender.com/registrar', {
+        method: 'POST',
+        headers:  {
+            "Content-Type": "application/json"
+          },
+        body: JSON.stringify({"nombre": nombres,
+        "apellido": apellidos,
+        "mail": email,
+        "clave": password,
+        "dni": cedula,
+        "nacimiento": fecha,
+        "direccion": direccion})
+    });
+
+    if (response.status >= 500 && response.status <= 599) {
+        OpenModalErrorReload(`Error con el servidor\n${response.status}`)
+        return;
+    }
+
+    const data = await response.json();
+
+    if (data['success']) {
+        return true;
+    } else {
+        OpenModalError(data['message']);
+        return false;
+    }
+}
+
+async function SignUp(e) {
+    e.preventDefault();
+    
+    const form = document.querySelector('form');
+    const data = new FormData(form);
+
+    const nombres = data.get('nombres');
+    const apellidos = data.get('apellidos');
+    const email = data.get('email');
+    const direccion = data.get('direccion');
+    const cedula = data.get('cedula');
+    const fecha = data.get('fecha');
+    const password = data.get('password');
+
+    if (!nombres || !apellidos || !email || !direccion || !cedula || !fecha || !password) {
+        OpenModalError('Llenar campos requeridos.');
+        return;
+    }
+    
+    if (!ValidateEmail(email)){
+        OpenModalError('Formato de email inválido.');
+        return;
+    }
+
+    const registered = await Register(nombres, apellidos, email, direccion, cedula, fecha, password);
+
+    if(registered){
+        form.reset();
+        OpenModalButton('Registrado correctamente.', main.Load);
+    }
+
+}
+
+function ValidateEmail(email){
+    return String(email)
+    .toLowerCase()
+    .match(
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    );
 }

@@ -1,3 +1,5 @@
+import {OpenModalButton, OpenModalError, OpenModalErrorReload} from './modal.js';
+
 export function LoadProfile(){
     document.title = 'Perfil';
 
@@ -126,4 +128,49 @@ export function LoadProfile(){
 
     const main = document.querySelector('main');
     main.appendChild(article);
+
+    LoadProfileAPI();
+}
+
+
+async function ProfileAPI(jwt) {
+    const response = await fetch('https://graco-api.onrender.com/perfil', {
+        method: 'GET',
+        headers:{
+            'Content-Type': 'application/json',
+            'Authorization': jwt
+        }
+    });
+
+    if (response.status >= 500 && response.status <= 599) {
+        OpenModalErrorReload(`Error con el servidor\n${response.status}`)
+        return;
+    }
+
+    const data = await response.json();
+    	
+    if (data['success']) {
+        return {...data['data']};
+    } else {
+        OpenModalError(data['message']);
+        return null;
+    }
+}
+
+async function LoadProfileAPI() {
+    const jwt = localStorage.getItem('jwt');
+    if(jwt == null){
+        OpenModalErrorReload('Vuelve a iniciar sesión antes de continuar.');
+        return;
+    }
+
+    const profileData = await ProfileAPI(jwt);
+
+    if(profileData != null){
+        document.querySelector('form input[name="email"]').value = profileData['mail'];
+        document.querySelector('form input[name="nombres"]').value = profileData['nombre'];
+        document.querySelector('form input[name="apellidos"]').value = profileData['apellido'];
+        document.querySelector('form input[name="cedula"]').value = profileData['dni'];
+        document.querySelector('form input[name="direccion"]').value = profileData['direccion'];
+    }
 }

@@ -55,6 +55,7 @@
 }
 
 .article-properties section li{
+    cursor: pointer;
     /*padding: 20px;*/
     background-color: rgb(235, 235, 235);
     border-radius: 15px;

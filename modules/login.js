@@ -1,4 +1,6 @@
-/*import OpenRegistrarse from './headers.js';*/
+import {OpenRegistrarse} from './headers.js';
+import {OpenModalButton, OpenModalError, OpenModalErrorReload} from './modal.js';
+import * as main from './../main.js'
 
 export function LoadLogin(){
     document.title = 'Iniciar sesion';
@@ -51,10 +53,10 @@ export function LoadLogin(){
     a1.classList.add('link-form');
     a1.innerHTML = 'Crea una';
 
-    /*a1.addEventListener('click', (e) => {
+    a1.addEventListener('click', (e) => {
         e.preventDefault();
         OpenRegistrarse();
-    });  //TODO:*/
+    });  
 
     p.appendChild(a1);
 
@@ -70,27 +72,28 @@ export function LoadLogin(){
     main.appendChild(article);
 }
 
-
 async function LogInAPI(email, pass) {
     const response = await fetch('https://graco-api.onrender.com/login', {
         method: 'POST',
         headers:{
             'Content-Type': 'application/json'
         },
-        body: {'email': email, 'password': pass}
+        body: JSON.stringify({'email': email, 'password': pass})
     });
 
-    console.log(response)
-    if (!response.ok) {
-        console.error(`Error: ${response.status}`); //TODO: modal aqui
+
+    if (response.status >= 500 && response.status <= 599) {
+        OpenModalErrorReload(`Error con el servidor\n${response.status}`)
         return;
     }
 
-    const data = await response.json();
 
+    const data = await response.json();
+    	
     if (data['success']) {
         return data['data']['token'];
     } else {
+        OpenModalError(data['message']);
         return null;
     }
 }
@@ -104,24 +107,27 @@ async function LogIn(e){
     const pass = data.get('password');
 
     if (!email || !pass) {
-        //TODO: modal aqui de error
+        OpenModalError('Llenar campos requeridos.');
         return;
     }
 
     if (!ValidateEmail(email)){
-        //TODO: modal aqui de error por email invalido
+        OpenModalError('Formato de email inválido.');
+        return;
     }
     
     const token = await LogInAPI(email, pass);
-    
+
     if(token != null){
         form.reset();
         localStorage.setItem('jwt', token);
-        //TODO: modal aqui de redirigir?
+        OpenModalButton('Iniciaste sesion correctamente', main.Load);
     }
-    else{
-        //TODO: modal aqui de error
-    }
+
+    /*
+    if (token == undefined){
+        return;
+    }*/
 }
 
 function ValidateEmail(email){

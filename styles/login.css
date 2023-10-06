@@ -3,5 +3,22 @@
 }
 
 .login-article form{
-    width: 500px;
+    width: 40vw;
 }
+
+/* ----- non specific media queries -----*/
+
+@media (width <= 1200px) {
+    .login-article form{
+        width: 60vw;
+    }
+}
+
+/* ----- mobile media queries -----*/
+
+@media (width <= 480px) {
+    .login-article form{
+        width: 93vw;
+    }
+}
+

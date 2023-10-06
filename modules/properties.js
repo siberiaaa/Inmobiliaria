@@ -1,3 +1,8 @@
+import {OpenModalErrorReload} from './modal.js';
+import {LoadProperty} from './property.js';
+
+let propertiesArray = [];
+
 export function LoadProperties(){
     document.title = 'Propiedades';
 
@@ -91,25 +96,67 @@ export function LoadProperties(){
 
     const main = document.querySelector('main');
     main.appendChild(article);
+
+    FillPropertiesAPI();
+
 }
 
-export function LoadProperty(/*propiedad se supone*/){
+async function GetPropertiesAPI(){
+    const response = await fetch('https://graco-api.onrender.com/propiedad');
+
+    if (response.status >= 500 && response.status <= 599) {
+        OpenModalErrorReload(`Error con el servidor\n${response.status}`)
+        return false;
+    }
+
+    const data = await response.json();
+
+    if (data['success']) {
+        propertiesArray = [...data['data']];
+        return true;
+    } else {
+        OpenModalError(data['message']);
+        return false;
+    }
+}
+
+async function FillPropertiesAPI(){
+    const result = await GetPropertiesAPI();
+
+    if (result) {
+        for (let property of propertiesArray){
+            LoadPropertyLi(property);
+        }
+ }
+    
+
+}
+
+export function LoadPropertyLi(property){
     const li = document.createElement('li');
 
     const div = document.createElement('div');
     const img = document.createElement('img');
 
     img.setAttribute('draggable', 'false');
-    img.src = 'assets/test/src.jpg';
+    img.src = property['imagenes'][0];
 
     const h2 = document.createElement('h2');
-    h2.innerHTML = 'Titulo';
+    h2.innerHTML = `${property['id']} Titulo`;
 
     const p1 = document.createElement('p');
-    p1.innerHTML = '1 habitación'; 
+    if (property['habitaciones'] == 1){
+        p1.innerHTML = '1 habitación'; 
+    } else{
+        p1.innerHTML = `${property['habitaciones']} habitaciones`;
+    }
 
     const p2 = document.createElement('p');
-    p2.innerHTML = '4 baños'; 
+    if (property['baños'] == 1){
+        p2.innerHTML = '1 baño'; 
+    } else{
+        p2.innerHTML = `${property['baños']} baños`;
+    }
 
     div.appendChild(img);
     div.appendChild(h2);
@@ -117,8 +164,13 @@ export function LoadProperty(/*propiedad se supone*/){
     div.appendChild(p2);
 
     const h3 = document.createElement('h3');
-    h3.innerHTML = '5000$';
+    h3.innerHTML = `${property['precio']}$`;
 
+
+    li.addEventListener('click', (e) => {
+        e.preventDefault();
+        LoadProperty(property);
+    })
     li.append(div);
     li.append(h3);
 

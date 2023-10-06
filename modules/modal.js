@@ -1,4 +1,5 @@
 import * as headers from './headers.js';
+import * as main from './../main.js'
 
 function CreateModal(){
     const oldModal = document.querySelector('article.modal');
@@ -18,6 +19,80 @@ function CreateModal(){
     const body = document.querySelector('body');
     body.prepend(modal);
 }
+
+export function OpenModalButton(message, button){
+    CreateModal();
+    const modalContent = document.querySelector('.modal-content');
+    modalContent.classList.add('messagebox');
+
+    const p = document.createElement('p');
+    p.innerHTML = message;
+    modalContent.appendChild(p);
+
+    const a = document.createElement('a');
+    a.innerHTML = 'Aceptar';
+    a.addEventListener('click', () => {
+        button();
+        document.documentElement.style.setProperty('--displaymodal', 'none')
+    });
+
+    modalContent.appendChild(a);
+
+
+    document.documentElement.style.setProperty('--displaymodal', 'flex');
+}
+
+export function OpenModalError(message){
+    CreateModal();
+    const modalContent = document.querySelector('.modal-content');
+    modalContent.classList.add('messagebox');
+    modalContent.classList.add('error');
+ 
+    const h1 = document.createElement('h1');
+    h1.innerHTML = 'Error';
+    modalContent.appendChild(h1);
+
+    const p = document.createElement('p');
+    p.innerHTML = message;
+    modalContent.appendChild(p);
+
+    const a = document.createElement('a');
+    a.innerHTML = 'Aceptar';
+    a.addEventListener('click', () => {document.documentElement.style.setProperty('--displaymodal', 'none')});
+
+    modalContent.appendChild(a);
+
+
+    document.documentElement.style.setProperty('--displaymodal', 'flex');
+}
+
+export function OpenModalErrorReload(message){
+    CreateModal();
+    const modalContent = document.querySelector('.modal-content');
+    modalContent.classList.add('messagebox');
+    modalContent.classList.add('error');
+ 
+    const h1 = document.createElement('h1');
+    h1.innerHTML = 'Error';
+    modalContent.appendChild(h1);
+
+    const p = document.createElement('p');
+    p.innerHTML = message;
+    modalContent.appendChild(p);
+
+    const a = document.createElement('a');
+    a.innerHTML = 'Aceptar';
+    a.addEventListener('click', () => {
+        document.documentElement.style.setProperty('--displaymodal', 'none');
+        main.Load();
+    });
+
+    modalContent.appendChild(a);
+
+
+    document.documentElement.style.setProperty('--displaymodal', 'flex');
+}
+
 
 export function OpenModalOptions(){
     CreateModal();
