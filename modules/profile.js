@@ -127,6 +127,11 @@ export function LoadProfile(){
     a2.setAttribute('draggable', 'false');
     a2.classList.add('button-form');
     a2.innerHTML = 'Cambiar contraseña';
+    a2.addEventListener('click', (e) => {
+        e.preventDefault();
+        ModifyPassword();
+    });
+    
 
     const a3 = document.createElement('a');
     a3.setAttribute('href', '');
@@ -259,7 +264,7 @@ function ModifyPassword(){
     const label1 = document.createElement('label');
     label1.htmlFor = 'oldpass';
     const span1 = document.createElement('span');
-    span1.innerHTML = 'Contraseña nueva';
+    span1.innerHTML = 'Contraseña actual';
     const input1 = document.createElement('input');
     input1.type = 'password';
     input1.name = 'oldpass';
@@ -340,7 +345,7 @@ async function SavePassword(){
             return;
         }
         
-        const modified = await SavePassword(jwt, oldpass, newpass);
+        const modified = await SavePasswordAPI(jwt, oldpass, newpass);
 
         if(modified){
             OpenModalButton('Cambios guardados correctamente', () => {
@@ -355,17 +360,16 @@ async function SavePassword(){
 
 }
 async function SavePasswordAPI(jwt, oldpass, newpass){
-    const response = await fetch('https://graco-api.onrender.com/perfil', {
+    const response = await fetch('https://graco-api.onrender.com/cambiarclave', {
         method: 'PUT',
         headers:  {
             "Content-Type": "application/json",
             'Authorization': jwt
           },
-        body: JSON.stringify({"nombre": nombres,
-        "apellido": apellidos,
-        "dni": dni,
-        "nacimiento": fecha,
-        "direccion": direccion})
+        body: JSON.stringify({
+            "claveAnterior": oldpass,
+            "claveNueva": newpass
+        })
     });
 
     if (response.status >= 500 && response.status <= 599) {
