@@ -1,5 +1,6 @@
 import {OpenModalButton, OpenModalError, OpenModalErrorReload} from './modal.js';
 import {LoadHistory} from './history.js';
+import {OpenCerrarSesion} from './headers.js';
 
 export function LoadProfile(){
     document.title = 'Perfil';
@@ -64,6 +65,7 @@ export function LoadProfile(){
     const date = document.createElement('input');
     date.type = 'date';
     date.name = 'fecha';
+    date.setAttribute('disabled', 'true');
     
     dateLabel.appendChild(spanDate);
     dateLabel.appendChild(date);
@@ -115,6 +117,10 @@ export function LoadProfile(){
     a1.setAttribute('draggable', 'false');
     a1.classList.add('button-form');
     a1.innerHTML = 'Modificar perfil';
+    a1.addEventListener('click', (e) => {
+        e.preventDefault();
+        ModifyProfile();
+    });
 
     const a2 = document.createElement('a');
     a2.setAttribute('href', '');
@@ -132,9 +138,7 @@ export function LoadProfile(){
         const main = document.querySelector('main');
         main.innerHTML = '';
         LoadHistory();
-
-    }
-    )
+    });
 
     section2.appendChild(a1);
     section2.appendChild(a2);
@@ -191,12 +195,161 @@ async function LoadProfileAPI() {
         document.querySelector('form input[name="nombres"]').value = profileData['nombre'];
         document.querySelector('form input[name="apellidos"]').value = profileData['apellido'];
 
-        const fecha = new Date(profileData['nacimiento']);
-        const datePicker = document.querySelector('form input[name="fecha"]');
-        datePicker.setAttribute('enabled', 'true');
-        datePicker.setAttribute('value', fecha);
-        
+        const fecha = new Date(profileData['nacimiento']).toLocaleDateString('en-CA');
+        document.querySelector('form input[name="fecha"]').value = fecha;
         document.querySelector('form input[name="cedula"]').value = profileData['dni'];
         document.querySelector('form input[name="direccion"]').value = profileData['direccion'];
     }
 }
+
+function ModifyProfile(){
+    const nombres = document.querySelector('form input[name="nombres"]');
+    const apellidos =  document.querySelector('form input[name="apellidos"]');
+    const fecha = document.querySelector('form input[name="fecha"]');
+    const cedula = document.querySelector('form input[name="cedula"]');
+    const direccion = document.querySelector('form input[name="direccion"]');
+   
+    nombres.removeAttribute ('disabled');
+    apellidos.removeAttribute ('disabled');
+    fecha.removeAttribute ('disabled');
+    cedula.removeAttribute ('disabled');
+    direccion.removeAttribute ('disabled');
+
+    const form = document.querySelector('.article-profile section form');
+    form.classList.add('formedit');
+
+    const buttonCancel = document.createElement('a');
+    buttonCancel.setAttribute('href', '');
+    buttonCancel.setAttribute('draggable', 'false');
+    buttonCancel.classList.add('button-form');
+    buttonCancel.innerHTML = 'Cancelar';
+    buttonCancel.addEventListener('click', (e) => {
+        e.preventDefault();
+        const main = document.querySelector('main');
+        main.innerHTML = '';
+        LoadProfile();
+    });
+
+    const buttonSave = document.createElement('a');
+    buttonSave.setAttribute('href', '');
+    buttonSave.setAttribute('draggable', 'false');
+    buttonSave.classList.add('button-form');
+    buttonSave.innerHTML = 'Guardar cambios';
+    buttonSave.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (!SaveModify()){
+            return;
+        }
+    });
+    
+    const button = document.querySelector('a.button-form:nth-child(1)');
+    const button1 = document.querySelector('a.button-form:nth-child(2)');
+    const button2 = document.querySelector('a.button-form:nth-child(3)');
+
+    button1.remove();
+    button2.remove();
+
+    button.before(buttonSave);
+    button.before(buttonCancel);
+
+    button.remove();     
+}
+
+async function SaveModify(){
+    const jwt = localStorage.getItem('jwt');
+    if(jwt == null){
+        OpenModalErrorReload('Vuelve a iniciar sesión antes de continuar.');
+        return;
+    }
+
+    const form = document.querySelector('form');
+        const data = new FormData(form);
+    
+        const nombres = data.get('nombres');
+        const apellidos = data.get('apellidos');
+        const direccion = data.get('direccion');
+        const dni = data.get('cedula');
+        const fecha = data.get('fecha');
+    
+        if (!nombres || !apellidos || !direccion || !dni || !fecha) {
+            OpenModalError('Llenar campos requeridos.');
+            return;
+        }
+        
+        if (!Validate18(fecha)){
+            OpenModalError('Debe ser mayor de edad para utilizar la plataforma');
+            return;
+        }
+
+        const dateOffset = new Date(fecha);
+        dateOffset.setUTCDate(dateOffset.getUTCDate() + 1);
+
+        const modified = await SaveModifyAPI(jwt, nombres, apellidos, dni, dateOffset, direccion);
+
+        if(modified){
+            OpenModalButton('Cambios guardados correctamente', () => {
+                const main = document.querySelector('main');
+                main.innerHTML = '';
+                LoadProfile();
+            });
+        }
+        else{
+            return false;
+        }
+
+}
+async function SaveModifyAPI(jwt, nombres, apellidos, dni, fecha, direccion){
+    const response = await fetch('https://graco-api.onrender.com/perfil', {
+        method: 'PUT',
+        headers:  {
+            "Content-Type": "application/json",
+            'Authorization': jwt
+          },
+        body: JSON.stringify({"nombre": nombres,
+        "apellido": apellidos,
+        "dni": dni,
+        "nacimiento": fecha,
+        "direccion": direccion})
+    });
+
+    if (response.status >= 500 && response.status <= 599) {
+        OpenModalErrorReload(`Error con el servidor\n${response.status}`)
+        return;
+    }
+
+    const data = await response.json();
+
+    if (data['success']) {
+        return true;
+    } else if(data['message' == 'Invalid session token']){
+        OpenModalErrorReload(`Sesión expirada. Volver a iniciar sesion.`);
+        localStorage.removeItem('jwt');
+        return false;
+    } else{
+        OpenModalError(data['message']);
+        return false;
+    }
+}
+
+//Validacion que pedí prestada por ahí 
+function Validate18(birthday){
+	// it will accept two types of format yyyy-mm-dd and yyyy/mm/dd
+	var optimizedBirthday = birthday.replace(/-/g, "/");
+
+	//set date based on birthday at 01:00:00 hours GMT+0100 (CET)
+	var myBirthday = new Date(optimizedBirthday);
+
+	// set current day on 01:00:00 hours GMT+0100 (CET)
+	var currentDate = new Date().toJSON().slice(0,10)+' 01:00:00';
+
+	// calculate age comparing current date and borthday
+	var myAge = ~~((Date.now(currentDate) - myBirthday) / (31557600000));
+
+	if(myAge < 18) {
+     	    return false;
+        }else{
+	    return true;
+	}
+
+} 
+

@@ -23,6 +23,10 @@
     
 }
 
+.article-profile section form.formedit{
+    background-color: rgba(243, 243, 243, 0);
+}
+
 .article-profile section form label{
     width: 80%;
  }

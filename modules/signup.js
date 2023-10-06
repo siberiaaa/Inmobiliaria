@@ -190,6 +190,11 @@ async function SignUp(e) {
         return;
     }
 
+    if (!Validate18(fecha)){
+        OpenModalError('Debe ser mayor de edad para utilizar la plataforma');
+        return;
+    }
+
     const registered = await Register(nombres, apellidos, email, direccion, cedula, fecha, password);
 
     if(registered){
@@ -205,4 +210,26 @@ function ValidateEmail(email){
     .match(
       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
     );
+
+    }
+    
+//Validacion que pedí prestada por ahí 
+function Validate18(birthday){
+	// it will accept two types of format yyyy-mm-dd and yyyy/mm/dd
+	var optimizedBirthday = birthday.replace(/-/g, "/");
+
+	//set date based on birthday at 01:00:00 hours GMT+0100 (CET)
+	var myBirthday = new Date(optimizedBirthday);
+
+	// set current day on 01:00:00 hours GMT+0100 (CET)
+	var currentDate = new Date().toJSON().slice(0,10)+' 01:00:00';
+
+	// calculate age comparing current date and borthday
+	var myAge = ~~((Date.now(currentDate) - myBirthday) / (31557600000));
+
+	if(myAge < 18) {
+     	    return false;
+        }else{
+	    return true;
+	}
 }

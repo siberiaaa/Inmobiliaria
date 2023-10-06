@@ -174,14 +174,12 @@ export function LoadPropertyLi(property){
             LoadProperty(property);
         }
         else{
-            LoadProperty(property);
-            /* Mientras se arregla lo de body get
             const propertyUser = LoadSinglePropertyAPI(property['id'], jwt);
             if (propertyUser != null){
                 LoadProperty(propertyUser);
             }else{
                 return;
-            }*/
+            }
         }
 
     })
@@ -193,13 +191,12 @@ export function LoadPropertyLi(property){
 }
 
 async function LoadSinglePropertyAPI(id, jwt){
-    const response = await fetch('https://graco-api.onrender.com/propiedadusuario/id', {
+    const response = await fetch(`https://graco-api.onrender.com/propiedadusuario/${id}`, {
         method: 'GET',
         headers:  {
             "Content-Type": "application/json",
             "Authorization": jwt
-          },
-        body: JSON.stringify({"propiedad": id})
+          }
     });
 
     if (response.status >= 500 && response.status <= 599) {
