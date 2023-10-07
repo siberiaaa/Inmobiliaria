@@ -165,8 +165,14 @@ async function Register(nombres, apellidos, email, direccion, cedula, fecha, pas
     if (data['success']) {
         return true;
     } else {
-        OpenModalError(data['message']);
-        return false;
+        if(typeof data['message'] === 'object'){
+            OpenModalError('Tremendo error con el servidor, no sé que error es');
+            return false;
+        }
+        else{
+            OpenModalError(data['message']);
+            return false;
+        }
     }
 }
 

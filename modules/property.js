@@ -168,16 +168,23 @@ async function SolicitarVisitaAPI(jwt, id){
     const data = await response.json();
     	
     if (data['success']) {
-        return data['message'];
+            return data['message'];
     } else if(data['message' == 'Invalid session token'] || data['message'] == 'Token de sesión inválido'){
         OpenModalErrorReload(`Sesión expirada. Volver a iniciar sesion.`);
         localStorage.removeItem('jwt');
         return null;
     }
         else {
-        OpenModalError(data['message']);
-        return null;
+            if(typeof data['message'] === 'object'){
+                OpenModalError('Tremendo error con el servidor, no sé que error es');
+                return null;
+            }
+            else{
+                OpenModalError(data['message']);
+                return null;
+            }
     }
+    
 }
 
 export async function Comprar(id, correo, nombre, telefono, pago){
@@ -229,7 +236,13 @@ async function ComprarAPI(jwt, id, correo, nombre, telefono, pago){
         return null;
     }
         else {
-        OpenModalError(data['message']);
-        return null;
+            if(typeof data['message'] === 'object'){
+                OpenModalError('Tremendo error con el servidor, no sé que error es');
+                return null;
+            }
+            else{
+                OpenModalError(data['message']);
+                return null;
+            }
     }
 }

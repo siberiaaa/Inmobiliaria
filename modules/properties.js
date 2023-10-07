@@ -287,8 +287,14 @@ async function GetPropertiesAPI(){
         propertiesArray = [...data['data']];
         return true;
     } else {
-        OpenModalError(data['message']);
-        return false;
+        if(typeof data['message'] === 'object'){
+            OpenModalError('Tremendo error con el servidor, no sé que error es');
+            return false;
+        }
+        else{
+            OpenModalError(data['message']);
+            return false;
+        }
     }
 }
 
@@ -353,6 +359,7 @@ export function LoadPropertyLi(property){
             }else{
                 return;
             }*/ 
+            //Cargar propiedad por usuario no funcionó entonces se comentó y se dejó la carga de propiedad normal normalita.
             LoadProperty(property);
         }
 
@@ -387,8 +394,14 @@ async function LoadSinglePropertyAPI(id, jwt){
         localStorage.removeItem('jwt');
         return null;
     } else {
-        OpenModalErrorReload(data['message']);
-        return null;
+        if(typeof data['message'] === 'object'){
+            OpenModalErrorReload('Tremendo error con el servidor, no sé que error es');
+            return null;
+        }
+        else{
+            OpenModalErrorReload(data['message']);
+            return null;
+        }
     }
 }
 

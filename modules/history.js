@@ -30,10 +30,13 @@ export function LoadPropertyHistory(property){
     const li = document.createElement('li');
 
     const div = document.createElement('div');
+
+    /*
     const img = document.createElement('img');
 
     img.setAttribute('draggable', 'false');
     img.src = property['imagenes'][0];
+*/ //pipipi pensé que tenía imágenes para el historial
 
     const h2 = document.createElement('h2');
     h2.innerHTML = `${property['id']} Titulo`;
@@ -52,7 +55,7 @@ export function LoadPropertyHistory(property){
         p2.innerHTML = `${property['baños']} baños`;
     }
 
-    div.appendChild(img);
+    /*div.appendChild(img);*/
     div.appendChild(h2);
     div.appendChild(p1);
     div.appendChild(p2);
@@ -95,15 +98,26 @@ async function HistoryAPI(jwt) {
     const data = await response.json();
 
     if (data['success']) {
-        console.log(data['data'])
-        return [...data['data']];
+        if(Array.isArray(data['data'])){
+            return [...data['data']];
+        }
+        else{
+            return {...data['data']};
+        }
+        
     } else if(data['message' == 'Invalid session token'] || data['message'] == 'Token de sesión inválido'){
         OpenModalErrorReload(`Sesión expirada. Volver a iniciar sesion.`);
         localStorage.removeItem('jwt');
         return null;
     } else {
-        OpenModalError(data['message']);
-        return null;
+        if(typeof data['message'] === 'object'){
+            OpenModalError('Tremendo error con el servidor, no sé que error es');
+            return null;
+        }
+        else{
+            OpenModalError(data['message']);
+            return null;
+        }
     }
 }
 
@@ -125,9 +139,15 @@ async function LoadHistoryAPI(){
             ul.append(li);
         }
         else{
-            for (let property of data){
-                LoadPropertyHistory(property);
+            if(Array.isArray(data)){
+                for (let property of data){
+                    LoadPropertyHistory(property);
+            }}
+            else{
+                LoadPropertyHistory(data);
+                
             }
         } 
+    
     }
 }

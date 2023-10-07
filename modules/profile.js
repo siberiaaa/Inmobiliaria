@@ -189,8 +189,14 @@ async function ProfileAPI(jwt) {
         localStorage.removeItem('jwt');
         return null;
     } else {
-        OpenModalError(data['message']);
-        return null;
+        if(typeof data['message'] === 'object'){
+            OpenModalError('Tremendo error con el servidor, no sé que error es');
+            return null;
+        }
+        else{
+            OpenModalError(data['message']);
+            return null;
+        }
     }
 }
 
@@ -398,8 +404,14 @@ async function SavePasswordAPI(jwt, oldpass, newpass){
         localStorage.removeItem('jwt');
         return false;
     } else{
-        OpenModalError(data['message']);
-        return false;
+        if(typeof data['message'] === 'object'){
+            OpenModalError('Tremendo error con el servidor, no sé que error es');
+            return false;
+        }
+        else{
+            OpenModalError(data['message']);
+            return false;
+        }
     }
 }
 
@@ -477,8 +489,14 @@ async function SaveModifyAPI(jwt, nombres, apellidos, dni, fecha, direccion){
         localStorage.removeItem('jwt');
         return false;
     } else{
-        OpenModalError(data['message']);
-        return false;
+        if(typeof data['message'] === 'object'){
+            OpenModalError('Tremendo error con el servidor, no sé que error es');
+            return false;
+        }
+        else{
+            OpenModalError(data['message']);
+            return false;
+        }
     }
 }
 

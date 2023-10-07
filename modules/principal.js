@@ -59,8 +59,14 @@ async function GetPropertiesAPI(){
     if (data['success']) {
         return [...data['data']];
     } else {
-        OpenModalError(data['message']);
-        return null;
+        if(typeof data['message'] === 'object'){
+            OpenModalError('Tremendo error con el servidor, no sé que error es');
+            return null;
+        }
+        else{
+            OpenModalError(data['message']);
+            return null;
+        }
     }
 }
 
