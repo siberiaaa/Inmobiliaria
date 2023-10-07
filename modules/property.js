@@ -64,7 +64,14 @@ export function LoadProperty(property){
 
     const yearToday = new Date(Date.now());
     const yearProperty = new Date(property['antiguedad']);
-    h43.innerHTML = `Antiguedad: ${yearToday.getFullYear() - (yearProperty.getFullYear() + 1)} años`;
+    const antiguedad = yearToday.getFullYear() - (yearProperty.getFullYear() + 1);
+    if(antiguedad == 1){
+        h43.innerHTML = `Antiguedad: ${antiguedad} año`;
+    }
+    else{
+        h43.innerHTML = `Antiguedad: ${antiguedad} años`;
+    }
+    
     li23.appendChild(h43);
 
     const li24 = document.createElement('li'); 

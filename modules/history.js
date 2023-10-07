@@ -92,6 +92,8 @@ async function HistoryAPI(jwt) {
         return;
     }
 
+    const data = await response.json();
+
     if (data['success']) {
         console.log(data['data'])
         return [...data['data']];
