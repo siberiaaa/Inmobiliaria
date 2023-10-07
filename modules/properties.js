@@ -344,13 +344,14 @@ export function LoadPropertyLi(property){
         if(jwt == null){
             LoadProperty(property);
         }
-        else{
+        else{/*
             const propertyUser = LoadSinglePropertyAPI(property['id'], jwt);
             if (propertyUser != null){
                 LoadProperty(propertyUser);
             }else{
                 return;
-            }
+            }*/ 
+            LoadProperty(property);
         }
 
     })
@@ -379,7 +380,7 @@ async function LoadSinglePropertyAPI(id, jwt){
 
     if (data['success']) {
         return {...data['data']};
-    } else if(data['message' == 'Invalid session token']){
+    } else if(data['message' == 'Invalid session token'] || data['message'] == 'Token de sesión inválido'){
         OpenModalErrorReload(`Sesión expirada. Volver a iniciar sesion.`);
         localStorage.removeItem('jwt');
         return null;

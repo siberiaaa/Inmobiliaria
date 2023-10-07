@@ -184,7 +184,7 @@ async function ProfileAPI(jwt) {
     	
     if (data['success']) {
         return {...data['data']};
-    } else if(data['message' == 'Invalid session token']){
+    } else if(data['message' == 'Invalid session token'] || data['message'] == 'Token de sesión inválido'){
         OpenModalErrorReload(`Sesión expirada. Volver a iniciar sesion.`);
         localStorage.removeItem('jwt');
         return null;
@@ -389,7 +389,7 @@ async function SavePasswordAPI(jwt, oldpass, newpass){
 
     if (data['success']) {
         return true;
-    } else if(data['message' == 'Invalid session token']){
+    } else if(data['message' == 'Invalid session token'] || data['message'] == 'Token de sesión inválido'){
         OpenModalErrorReload(`Sesión expirada. Volver a iniciar sesion.`);
         localStorage.removeItem('jwt');
         return false;
@@ -466,7 +466,7 @@ async function SaveModifyAPI(jwt, nombres, apellidos, dni, fecha, direccion){
 
     if (data['success']) {
         return true;
-    } else if(data['message' == 'Invalid session token']){
+    } else if(data['message' == 'Invalid session token'] || data['message'] == 'Token de sesión inválido'){
         OpenModalErrorReload(`Sesión expirada. Volver a iniciar sesion.`);
         localStorage.removeItem('jwt');
         return false;

@@ -1,3 +1,5 @@
+import {OpenModalErrorReload, OpenModalError, OpenModalFormCompra, OpenModalAceptarReload} from './modal.js';
+
 export function LoadProperty(property){
     document.title = `${property['id']} Titulo`;
 
@@ -98,15 +100,26 @@ export function LoadProperty(property){
     a1.setAttribute('draggable', 'false');
     a1.classList.add('button-property');
     a1.innerHTML = 'Solicitar visita';
+    a1.addEventListener('click', (e) =>{
+        e.preventDefault();
+        SolicitarVisita(property['id']);
+    })
 
     const a2 = document.createElement('a');
     a2.setAttribute('href', '');
     a2.setAttribute('draggable', 'false');
     a2.classList.add('button-property');
     a2.innerHTML = 'Comprar';
+    a2.addEventListener('click', (e) =>{
+        e.preventDefault();
+        OpenModalFormCompra(property['id']);
+    })
 
-    section3.appendChild(a1);
-    section3.appendChild(a2);
+
+    if(localStorage.getItem('jwt') != null){
+        section3.appendChild(a1);
+        section3.appendChild(a2);
+    } /* Para que solo lo vea alguien loggeado */
 
     section2.appendChild(section3);
 
@@ -116,4 +129,101 @@ export function LoadProperty(property){
     const main = document.querySelector('main');
     main.innerHTML = '';
     main.appendChild(article);
+}
+
+async function SolicitarVisita(id){
+    const jwt = localStorage.getItem('jwt');
+    if(jwt == null){
+        OpenModalErrorReload('Vuelve a iniciar sesión antes de continuar.');
+        return;
+    }
+    const message = await SolicitarVisitaAPI(jwt, id);
+
+    if(message != null){
+        OpenModalAceptarReload(message);
+    }
+
+}
+
+async function SolicitarVisitaAPI(jwt, id){
+    const response = await fetch('https://graco-api.onrender.com/visitar-propiedad', {
+        method: 'POST',
+        headers:{
+            'Content-Type': 'application/json',
+            'Authorization': jwt
+        },
+        body: JSON.stringify({'propiedad': id})
+    });
+
+
+    if (response.status >= 500 && response.status <= 599) {
+        OpenModalErrorReload(`Error con el servidor\n${response.status}`)
+        return;
+    }
+
+
+    const data = await response.json();
+    	
+    if (data['success']) {
+        return data['message'];
+    } else if(data['message' == 'Invalid session token'] || data['message'] == 'Token de sesión inválido'){
+        OpenModalErrorReload(`Sesión expirada. Volver a iniciar sesion.`);
+        localStorage.removeItem('jwt');
+        return null;
+    }
+        else {
+        OpenModalError(data['message']);
+        return null;
+    }
+}
+
+export async function Comprar(id, correo, nombre, telefono, pago){
+    const jwt = localStorage.getItem('jwt');
+    if(jwt == null){
+        OpenModalErrorReload('Vuelve a iniciar sesión antes de continuar.');
+        return;
+    }
+    const message = await ComprarAPI(jwt, id, correo, nombre, telefono, pago);
+
+    if(message != null){
+        OpenModalAceptarReload(message);
+        document.documentElement.style.setProperty('--displaymodal', 'none');
+    }
+}
+
+async function ComprarAPI(jwt, id, correo, nombre, telefono, pago){
+    const response = await fetch('https://graco-api.onrender.com/tramitar-propiedad', {
+        method: 'POST',
+        headers:{
+            'Content-Type': 'application/json',
+            'Authorization': jwt
+        },
+        body: JSON.stringify({'propiedad': id,
+        "correo": correo,
+        "nombre": nombre,
+        "telefono": telefono,
+        "transaccion": pago}
+        )
+    });
+
+
+    if (response.status >= 500 && response.status <= 599) {
+        OpenModalErrorReload(`Error con el servidor\n${response.status}`)
+        return;
+    }
+
+
+    const data = await response.json();
+    	
+    if (data['success']) {
+        return data['message'];
+    } else if(data['message'] == 'Invalid session token' || data['message'] == 'Token de sesión inválido'){
+        OpenModalErrorReload(`Sesión expirada. Volver a iniciar sesion.`);
+        localStorage.removeItem('jwt');
+        return null;
+    }
+        else {
+        OpenModalError(data['message']);
+        return null;
+    }
 }

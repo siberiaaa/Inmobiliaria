@@ -157,6 +157,42 @@ section.headermenu{
 }
 
 
+/* ----- modal form -----*/
+.modal-content.article-form {
+    height: auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+    background: rgba(255, 255, 255, 0.781);
+    border-radius: 20px;
+    
+}
+
+.modal-content.article-form form {
+    row-gap: 20px;
+}
+
+.modal-content.article-form form input{
+    background: rgb(241, 241, 241);
+}
+
+/*non specific media queries*/
+
+@media (width <= 955px) {
+
+    }
+
+
+/*mobile media queries*/
+
+@media (width <= 480px) {
+
+}
+
+
+
+
 
 /* ----- non specific media queries -----*/
 
@@ -177,5 +213,8 @@ section.headermenu{
         height: 40vh;
     }
 }
+
+
+
 
 
