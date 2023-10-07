@@ -1,4 +1,4 @@
-import {OpenModalErrorReload, OpenModalError, OpenModalFormCompra, OpenModalAceptarReload} from './modal.js';
+import {OpenModalErrorReload, OpenModalError, OpenModalFormCompra, OpenModalAceptarReload, SpinnerOn, SpinnerOff} from './modal.js';
 
 export function LoadProperty(property){
     document.title = `${property['id']} Titulo`;

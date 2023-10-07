@@ -1,4 +1,4 @@
-import {OpenModalErrorReload, OpenModalError} from './modal.js';
+import {OpenModalErrorReload, OpenModalError, SpinnerOn, SpinnerOff} from './modal.js';
 import {LoadProperty} from './property.js';
 
 let propertiesArray = [];

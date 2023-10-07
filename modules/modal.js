@@ -279,3 +279,12 @@ function ValidateEmail(email){
       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
     );
 }
+
+
+export function SpinnerOn(){
+    document.documentElement.style.setProperty('--displayspinner', 'flex');
+}
+
+export function SpinnerOff(){
+    document.documentElement.style.setProperty('--displayspinner', 'none');
+}

@@ -1,4 +1,4 @@
-import {OpenModalError, OpenModalErrorReload} from './modal.js';
+import {OpenModalError, OpenModalErrorReload, SpinnerOn, SpinnerOff} from './modal.js';
 
 export function LoadHistory(){
     document.title = 'Propiedades';

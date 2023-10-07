@@ -1,5 +1,5 @@
 import {OpenRegistrarse} from './headers.js';
-import {OpenModalButton, OpenModalError, OpenModalErrorReload} from './modal.js';
+import {OpenModalButton, OpenModalError, OpenModalErrorReload, SpinnerOn, SpinnerOff} from './modal.js';
 import * as main from './../main.js'
 
 export function LoadLogin(){

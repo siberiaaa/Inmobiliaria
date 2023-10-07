@@ -1,4 +1,4 @@
-import {OpenModalButton, OpenModalError, OpenModalErrorReload} from './modal.js';
+import {OpenModalButton, OpenModalError, OpenModalErrorReload, SpinnerOn, SpinnerOff} from './modal.js';
 import {LoadHistory} from './history.js';
 import {OpenCerrarSesion} from './headers.js';
 

@@ -1,4 +1,5 @@
 import {LoadProperty} from './property.js';
+import {OpenModalError, OpenModalErrorReload, SpinnerOn, SpinnerOff} from './modal.js';
 
 export function LoadPrincipal(){ 
     document.title = 'Inmobiliaria';
@@ -64,8 +65,9 @@ async function GetPropertiesAPI(){
 }
 
 async function FillPropertiesAPI(){
+    SpinnerOn();
     const result = await GetPropertiesAPI();
-
+    SpinnerOff();
     if (result != null) {
         for (let property of result){
             LoadPropertyLi(property);

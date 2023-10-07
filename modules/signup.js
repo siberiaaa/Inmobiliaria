@@ -1,5 +1,5 @@
 import {OpenIniciarSesion} from './headers.js';
-import {OpenModalButton, OpenModalError, OpenModalErrorReload} from './modal.js';
+import {OpenModalButton, OpenModalError, OpenModalErrorReload, SpinnerOn, SpinnerOff} from './modal.js';
 import * as main from './../main.js'
 
 export function LoadSignup(){
@@ -199,8 +199,9 @@ async function SignUp(e) {
         return;
     }
 
+    SpinnerOn();
     const registered = await Register(nombres, apellidos, email, direccion, cedula, fecha, password);
-
+    SpinnerOff();
     if(registered){
         form.reset();
         OpenModalButton('Registrado correctamente.', main.Load);
