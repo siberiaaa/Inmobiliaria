@@ -113,7 +113,9 @@ async function LoadHistoryAPI(){
         OpenModalErrorReload('Vuelve a iniciar sesión antes de continuar.');
         return;
     }
+    SpinnerOn();
     const data = await HistoryAPI(jwt);
+    SpinnerOff();
 
     if(data != null){
         if(data.length == 0){

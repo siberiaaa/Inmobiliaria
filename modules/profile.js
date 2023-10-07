@@ -201,7 +201,9 @@ async function LoadProfileAPI() {
         return;
     }
 
+    SpinnerOn();
     const profileData = await ProfileAPI(jwt);
+    SpinnerOff();
 
     if(profileData != null){
         document.querySelector('form input[name="email"]').value = profileData['mail'];
@@ -352,8 +354,10 @@ async function SavePassword(){
             OpenModalError('Llenar campos requeridos.');
             return;
         }
-        
+
+        SpinnerOn();
         const modified = await SavePasswordAPI(jwt, oldpass, newpass);
+        SpinnerOff();
 
         if(modified){
             OpenModalButton('Cambios guardados correctamente', () => {
@@ -429,7 +433,9 @@ async function SaveModify(){
         const dateOffset = new Date(fecha);
         dateOffset.setUTCDate(dateOffset.getUTCDate() + 1);
 
+        SpinnerOn();
         const modified = await SaveModifyAPI(jwt, nombres, apellidos, dni, dateOffset, direccion);
+        SpinnerOff();
 
         if(modified){
             OpenModalButton('Cambios guardados correctamente', () => {

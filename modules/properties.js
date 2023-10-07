@@ -293,7 +293,9 @@ async function GetPropertiesAPI(){
 }
 
 async function FillPropertiesAPI(){
+    SpinnerOn();
     const result = await GetPropertiesAPI();
+    SpinnerOff();
 
     if (result) {
         for (let property of propertiesArray){

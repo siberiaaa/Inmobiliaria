@@ -137,7 +137,10 @@ async function SolicitarVisita(id){
         OpenModalErrorReload('Vuelve a iniciar sesión antes de continuar.');
         return;
     }
+    
+    SpinnerOn();
     const message = await SolicitarVisitaAPI(jwt, id);
+    SpinnerOff();
 
     if(message != null){
         OpenModalAceptarReload(message);
@@ -183,7 +186,10 @@ export async function Comprar(id, correo, nombre, telefono, pago){
         OpenModalErrorReload('Vuelve a iniciar sesión antes de continuar.');
         return;
     }
+
+    SpinnerOn();
     const message = await ComprarAPI(jwt, id, correo, nombre, telefono, pago);
+    SpinnerOff();
 
     if(message != null){
         OpenModalAceptarReload(message);

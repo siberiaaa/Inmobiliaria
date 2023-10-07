@@ -119,9 +119,11 @@ async function LogIn(e){
         OpenModalError('Formato de email inválido.');
         return;
     }
-    
-    const token = await LogInAPI(email, pass);
 
+    SpinnerOn();
+    const token = await LogInAPI(email, pass);
+    SpinnerOff();
+    
     if(token != null){
         form.reset();
         localStorage.setItem('jwt', token);
